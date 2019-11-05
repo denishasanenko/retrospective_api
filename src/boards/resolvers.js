@@ -1,4 +1,4 @@
-const Board = require('./models');
+const {DefaultColumns, Board} = require('./models');
 const User = require('../users/models');
 
 const resolvers = {
@@ -14,11 +14,10 @@ const resolvers = {
         postBoard: async (parent, args) => {
             const newBoard = new Board({
                 user_id: "27164be0-0014-11ea-b98b-c1bba1509ff4",
-                ...args.input
+                ...args.input,
+                columns: DefaultColumns
             });
-            const item = await newBoard.save();
-            console.log(item);
-            return item;
+            return await newBoard.save();
         }
     },
     Board: {

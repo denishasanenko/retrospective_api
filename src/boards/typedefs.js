@@ -14,16 +14,10 @@ const typedefs = gql`
         columns: [BoardColumn!]
         posted_by: User!
     }
-    
-    input BoardColumnsInput {
-        title: String!
-        color: String!
-    }
 
     input PostBoardInput {
         name: String!
         description: String
-        columns: [BoardColumnsInput!]
     }
 
     extend type Query {
