@@ -7,7 +7,8 @@ const BoardScheme = new Schema(
         id: String,
         user_id: String,
         name: String,
-        description: String
+        description: String,
+        columns: [{ title: String, color: String }]
     }
 );
 BoardScheme.pre('save', function (next) {

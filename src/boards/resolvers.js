@@ -13,10 +13,12 @@ const resolvers = {
     Mutation: {
         postBoard: async (parent, args) => {
             const newBoard = new Board({
-                user_id: "3e4cccc0-e2fb-11e9-a7aa-dd0f452832bc",
+                user_id: "27164be0-0014-11ea-b98b-c1bba1509ff4",
                 ...args.input
             });
-            return await newBoard.save();
+            const item = await newBoard.save();
+            console.log(item);
+            return item;
         }
     },
     Board: {
