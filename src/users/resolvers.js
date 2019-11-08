@@ -1,4 +1,5 @@
 const User = require('./models');
+const jwt = require('jsonwebtoken');
 
 const resolvers = {
     Query: {
@@ -15,7 +16,7 @@ const resolvers = {
             if (!user || !user.comparePassword(args.input.password)) {
                 throw new Error('Email or Password is incorrect');
             }
-            return '123';
+            return jwt.sign({email: user.email, id: user.id}, 'secret', {'expiresIn': '1h'});
         },
         signUp: async (parent, args) => {
             const user = await User.findOne({email: args.input.email});
@@ -26,7 +27,7 @@ const resolvers = {
                 ...args.input
             });
             await newUser.save();
-            return '123';
+            return jwt.sign({email: user.email, id: user.id}, 'secret', {'expiresIn': '1h'});
         }
     }
 };
