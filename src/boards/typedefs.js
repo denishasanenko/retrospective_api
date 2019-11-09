@@ -23,6 +23,7 @@ const typedefs = gql`
     extend type Query {
         totalBoards: Int!
         allBoards: [Board!]!
+        getBoard(id: String): Board!
     }
     extend type Mutation {
         postBoard(input: PostBoardInput!): Board!
