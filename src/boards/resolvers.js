@@ -1,34 +1,38 @@
-const {DefaultColumns, Board} = require('./models');
+const {DefaultColumns, Board, BoardCard} = require('./models');
 const User = require('../users/models');
 
 const resolvers = {
     Query: {
-        totalBoards: async () => {
-            return await Board.count();
+        allBoards: async (parent, args, context) => {
+            return await Board.find({user_id: context.user.id});
         },
-        allBoards: async () => {
-            return await Board.find();
-        },
-        getBoard: async (parent) => {
-            console.log(parent);
-            return await Board.findOne({id: '7f6369c0-001b-11ea-8a12-0b0d9f209cec'})
+        getBoard: async (parent, args) => {
+            return await Board.findOne({id: args.id})
         }
     },
     Mutation: {
-        postBoard: async (parent, args) => {
+        postBoard: async (parent, args, context) => {
             const newBoard = new Board({
-                user_id: "27164be0-0014-11ea-b98b-c1bba1509ff4",
+                user_id: context.user.id,
                 ...args.input,
                 columns: DefaultColumns
             });
             return await newBoard.save();
-        }
+        },
+        /*postCard: async () => {
+
+        }*/
     },
     Board: {
         posted_by: async (parent) => {
             return await User.findOne({id: parent.user_id});
-        }
+        },
     },
+    BoardColumn: {
+        cards: async (parent, args, context, info) => {
+            return await BoardCard.find({board_id: info.variableValues.id, column: parent.title});
+        }
+    }
 };
 
 module.exports = resolvers;

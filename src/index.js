@@ -18,18 +18,21 @@ resolvers = mergeDeep(resolvers, require('./base/resolvers'),
 
     const context = ({ req }) => {
         // get the user token from the headers
+        let user = {};
         const token = req.headers.authorization || '';
         const splitToken = token.split(' ')[1];
         if (['signIn', 'signUp'].includes(req.body.operationName)) {
-            return;
+            return {user};
         }
         try {
-            jwt.verify(splitToken, 'secret')
+            jwt.verify(splitToken, 'secret');
+            user = jwt.decode(splitToken);
         } catch (e) {
             throw new AuthenticationError(
                 'Authentication token is invalid, please log in'
             )
         }
+        return {user};
     }
 
 const app = express();

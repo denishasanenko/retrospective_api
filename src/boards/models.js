@@ -26,4 +26,21 @@ BoardScheme.pre('save', function (next) {
 });
 const Board = mongoose.model('Board', BoardScheme);
 
-module.exports = { Board, DefaultColumns };
+const BoardCardScheme = new Schema(
+    {
+        id: String,
+        user_id: String,
+        board_id: String,
+        column: String,
+        text: String
+    }
+);
+BoardCardScheme.pre('save', function (next) {
+    if (!this.id) {
+        this.id = uuidv1();
+    }
+    next();
+});
+const BoardCard = mongoose.model('BoardCard', BoardCardScheme);
+
+module.exports = { Board, BoardCard, DefaultColumns };

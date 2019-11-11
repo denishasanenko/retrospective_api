@@ -1,9 +1,14 @@
 const { gql } = require('apollo-server-express');
 
 const typedefs = gql`
+    type BoardCard {
+        text: String!
+    }
+    
     type BoardColumn {
         title: String!
         color: String!
+        cards: [BoardCard!]
     }
     
     type Board {
