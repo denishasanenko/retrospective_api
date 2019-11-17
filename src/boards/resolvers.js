@@ -34,7 +34,7 @@ const resolvers = {
     },
     BoardColumn: {
         cards: async (parent, args, context, info) => {
-            return await BoardCard.find({board_id: info.variableValues.id, column: parent.title});
+            return await BoardCard.find({board_id: info.variableValues.id, column: parent.title}, null, {sort: {created_at: -1}});
         }
     }
 };

@@ -33,13 +33,15 @@ const BoardCardScheme = new Schema(
         board_id: String,
         column: String,
         text: String,
-        parent: String
+        parent: String,
+        created_at: String
     }
 );
 BoardCardScheme.pre('save', function (next) {
     if (!this.id) {
         this.id = uuidv1();
     }
+    this.created_at = new Date().getTime();
     next();
 });
 const BoardCard = mongoose.model('BoardCard', BoardCardScheme);
