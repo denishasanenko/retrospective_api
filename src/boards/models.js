@@ -32,7 +32,8 @@ const BoardCardScheme = new Schema(
         user_id: String,
         board_id: String,
         column: String,
-        text: String
+        text: String,
+        parent: String
     }
 );
 BoardCardScheme.pre('save', function (next) {

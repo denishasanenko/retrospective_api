@@ -2,6 +2,7 @@ const { gql } = require('apollo-server-express');
 
 const typedefs = gql`
     type BoardCard {
+        id: String!
         text: String!
     }
     
@@ -29,6 +30,7 @@ const typedefs = gql`
         text: String!
         column: String!
         board_id: String!
+        parent: String
     }
 
     extend type Query {
