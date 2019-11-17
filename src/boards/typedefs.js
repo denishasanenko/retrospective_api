@@ -24,6 +24,12 @@ const typedefs = gql`
         name: String!
         description: String
     }
+    
+    input PostBoardCardInput {
+        text: String!
+        column: String!
+        board_id: String!
+    }
 
     extend type Query {
         totalBoards: Int!
@@ -32,6 +38,7 @@ const typedefs = gql`
     }
     extend type Mutation {
         postBoard(input: PostBoardInput!): Board!
+        postCard(input: PostBoardCardInput!): BoardCard!
     }
 `;
 

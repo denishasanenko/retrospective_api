@@ -19,9 +19,13 @@ const resolvers = {
             });
             return await newBoard.save();
         },
-        /*postCard: async () => {
-
-        }*/
+        postCard: async (parent, args, context) => {
+            const newCard = new BoardCard({
+                user_id: context.user.id,
+                ...args.input
+            });
+            return await newCard.save();
+        }
     },
     Board: {
         posted_by: async (parent) => {
