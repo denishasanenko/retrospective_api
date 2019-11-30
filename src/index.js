@@ -3,6 +3,12 @@ const express = require('express');
 const mergeDeep = require('./utils');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+var bugsnag = require('@bugsnag/js');
+var bugsnagExpress = require('@bugsnag/plugin-express');
+
+var bugsnagClient = bugsnag('32e6ddd9e6e88a9c88d3cb2c56538966');
+bugsnagClient.use(bugsnagExpress);
+var middleware = bugsnagClient.getPlugin('express');
 
 let typeDefs = [
     require('./base/typedefs'),
@@ -36,6 +42,8 @@ resolvers = mergeDeep(resolvers, require('./base/resolvers'),
     }
 
 const app = express();
+app.use(middleware.requestHandler);
+app.use(middleware.errorHandler);
 
 const server = new ApolloServer({
     typeDefs,
