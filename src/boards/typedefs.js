@@ -40,6 +40,7 @@ const typedefs = gql`
     }
     extend type Mutation {
         postBoard(input: PostBoardInput!): Board!
+        removeBoard(id: String!): String!
         postCard(input: PostBoardCardInput!): BoardCard!
     }
 `;

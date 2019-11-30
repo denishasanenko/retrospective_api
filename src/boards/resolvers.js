@@ -19,6 +19,14 @@ const resolvers = {
             });
             return await newBoard.save();
         },
+        removeBoard: async (parent, args, context) => {
+            const board = await Board.findOne({id: args.id});
+            if (!board || board.user_id !== context.user_id) {
+                throw new Error('Not enough permissions');
+            }
+            await Board.deleteOne({id: args.id});
+            return 1;
+        },
         postCard: async (parent, args, context) => {
             const newCard = new BoardCard({
                 user_id: context.user.id,
