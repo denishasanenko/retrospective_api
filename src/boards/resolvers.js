@@ -21,7 +21,7 @@ const resolvers = {
         },
         removeBoard: async (parent, args, context) => {
             const board = await Board.findOne({id: args.id});
-            if (!board || board.user_id !== context.user_id) {
+            if (!board || board.user_id !== context.user.id) {
                 throw new Error('Not enough permissions');
             }
             await Board.deleteOne({id: args.id});
