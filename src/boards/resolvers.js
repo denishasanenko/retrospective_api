@@ -44,7 +44,12 @@ const resolvers = {
         cards: async (parent, args, context, info) => {
             return await BoardCard.find({board_id: info.variableValues.id, column: parent.title}, null, {sort: {created_at: -1}});
         }
-    }
+    },
+    BoardCard: {
+        posted_by: async (parent) => {
+            return await User.findOne({id: parent.user_id});
+        },
+    },
 };
 
 module.exports = resolvers;

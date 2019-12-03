@@ -4,6 +4,7 @@ const typedefs = gql`
     type BoardCard {
         id: String!
         text: String!
+        posted_by: User!
     }
     
     type BoardColumn {
