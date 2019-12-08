@@ -13,6 +13,7 @@ const BoardScheme = new Schema(
     {
         id: String,
         user_id: String,
+        team_id: String,
         name: String,
         description: String,
         columns: [{ title: String, color: String }]

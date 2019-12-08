@@ -20,6 +20,7 @@ const typedefs = gql`
         created_at: DateTime
         columns: [BoardColumn!]
         posted_by: User!
+        team: Team
     }
 
     input PostBoardInput {

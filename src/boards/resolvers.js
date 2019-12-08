@@ -1,10 +1,12 @@
 const {DefaultColumns, Board, BoardCard} = require('./models');
 const User = require('../users/models');
+const Team = require('../teams/models');
 
 const resolvers = {
     Query: {
         allBoards: async (parent, args, context) => {
-            return await Board.find({user_id: context.user.id});
+            const team = await Team.findOne({users: {'$in': [context.user.id]}});
+            return await Board.find({'$or': [{user_id: context.user.id}, {team_id: team.id}]});
         },
         getBoard: async (parent, args) => {
             return await Board.findOne({id: args.id})
@@ -39,6 +41,9 @@ const resolvers = {
         posted_by: async (parent) => {
             return await User.findOne({id: parent.user_id});
         },
+        team: async (parent) => {
+            return await Team.findOne({id: parent.team_id});
+        }
     },
     BoardColumn: {
         cards: async (parent, args, context, info) => {

@@ -13,33 +13,35 @@ var middleware = bugsnagClient.getPlugin('express');
 let typeDefs = [
     require('./base/typedefs'),
     require('./users/typedefs'),
-    require('./boards/typedefs')
+    require('./boards/typedefs'),
+    require('./teams/typedefs')
 ];
-let resolvers = {
-
-};
-resolvers = mergeDeep(resolvers, require('./base/resolvers'),
+let resolvers = {};
+resolvers = mergeDeep(
+    resolvers,
+    require('./base/resolvers'),
     require('./users/resolvers'),
-    require('./boards/resolvers'));
+    require('./boards/resolvers')
+);
 
-    const context = ({ req }) => {
-        // get the user token from the headers
-        let user = {};
-        const token = req.headers.authorization || '';
-        const splitToken = token.split(' ')[1];
-        if (['signIn', 'signUp'].includes(req.body.operationName)) {
-            return {user};
-        }
-        try {
-            jwt.verify(splitToken, 'secret');
-            user = jwt.decode(splitToken);
-        } catch (e) {
-            throw new AuthenticationError(
-                'Authentication token is invalid, please log in'
-            )
-        }
+const context = ({ req }) => {
+    // get the user token from the headers
+    let user = {};
+    const token = req.headers.authorization || '';
+    const splitToken = token.split(' ')[1];
+    if (['signIn', 'signUp'].includes(req.body.operationName)) {
         return {user};
     }
+    try {
+        jwt.verify(splitToken, 'secret');
+        user = jwt.decode(splitToken);
+    } catch (e) {
+        throw new AuthenticationError(
+            'Authentication token is invalid, please log in'
+        )
+    }
+    return {user};
+}
 
 const app = express();
 app.use(middleware.requestHandler);
