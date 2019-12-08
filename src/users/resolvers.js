@@ -1,4 +1,5 @@
 const User = require('./models');
+const Team = require('../teams/models');
 const jwt = require('jsonwebtoken');
 
 const resolvers = {
@@ -26,8 +27,12 @@ const resolvers = {
             const newUser = new User({
                 ...args.input
             });
-            await newUser.save();
-            return jwt.sign({email: user.email, id: user.id}, 'secret', {'expiresIn': '1h'});
+            const savedUser = await newUser.save();
+            await Team.update(
+                { id: '4f32aa20-19ef-11ea-a091-df29d6a600ba' },
+                { $push: { users: savedUser.id }}
+            );
+            return jwt.sign({email: savedUser.email, id: savedUser.id}, 'secret', {'expiresIn': '1h'});
         }
     }
 };
